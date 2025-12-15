@@ -1,0 +1,12 @@
+node_modules/
+.env
+
+personalNotes/
+
+# Docker volumes
+data/
+
+
+# OS files
+.DS_Store
+Thumbs.db
