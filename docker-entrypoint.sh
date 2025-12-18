@@ -6,9 +6,9 @@ echo "Starting Directus bootstrap..."
 # Wait for database to be ready
 sleep 5
 
-# Run database migrations
-echo "Running migrations..."
-npx directus database migrate:latest
+# Bootstrap Directus (creates tables AND runs migrations)
+echo "Bootstrapping Directus..."
+npx directus bootstrap
 
 # Apply schema if exists
 if [ -f /directus/schema.yaml ]; then
