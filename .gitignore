@@ -1,7 +1,9 @@
 node_modules/
 .env
 
+# muddle junk
 personalNotes/
+deploy-schema.js
 
 # Docker volumes
 data/

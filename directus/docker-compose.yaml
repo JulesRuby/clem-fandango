@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: directus-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus
+      POSTGRES_DB: directus
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - directus
+
+  directus:
+    image: directus/directus:latest
+    container_name: directus-cms
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    depends_on:
+      - postgres
+    environment:
+      # Database
+      DB_CLIENT: pg
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: directus
+      DB_USER: directus
+      DB_PASSWORD: directus
+
+      # Admin Account (change these!)
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: admin123456
+
+      # Security
+      # KEY: replace
+      KEY: IBM0eOKmaeyhp8vRX165L61fOIfjqbTgbYKM0FrvL2M=
+      # SECRET: replace
+      SECRET: 9YDryYBX6fsq8Q0S+vVoXhO2c+V1ThwtzLAlUD1DYf0=
+
+      # General
+      PUBLIC_URL: http://localhost:8055
+
+      # Storage (local for development)
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: ./uploads
+
+      # Optional: Enable extensions
+      EXTENSIONS_AUTO_RELOAD: true
+    volumes:
+      - ./data/uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    networks:
+      - directus
+
+networks:
+  directus:
+    driver: bridge
+
+volumes:
+  db-data:
+  uploads:
