@@ -1,7 +1,10 @@
 FROM directus/directus:11.14.0
 
-COPY directus/schema.yaml /directus/schema.yaml
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+# Copy schema file
+COPY schema.yaml /directus/schema.yaml
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+# Use the script as entrypoint (Docker will handle permissions)
+ENTRYPOINT ["/bin/sh", "/docker-entrypoint.sh"]
