@@ -1,14 +1,30 @@
-node_modules/
+# Environment files
 .env
+.env.local
+*.env
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Local Directus data
+directus/data/
+data/
+
+# Next.js
+.next/
+out/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
 
 # muddle junk
 personalNotes/
 deploy-schema.js
 
-# Docker volumes
-data/
-
-
-# OS files
-.DS_Store
-Thumbs.db
