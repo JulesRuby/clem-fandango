@@ -23,17 +23,18 @@
 #!/bin/sh
 set -e
 
-# Run migrations to ensure DB is up to date
-echo "Running migrations..."
-npx directus database migrate:latest
+echo "Starting Directus bootstrap..."
+# Bootstrap creates system tables.
+npx directus bootstrap
 
-# Apply schema only if the file exists
+# Give the database a moment to finish internal indexing
+sleep 3
+
 if [ -f /directus/schema.yaml ]; then
   echo "Applying schema structure..."
-  # Use --yes to skip confirmation prompts
-  npx directus schema apply /directus/schema.yaml --yes || echo "Schema apply skipped."
+  # Added --force to resolve the "filter of undefined" issue
+  npx directus schema apply /directus/schema.yaml --yes --force || echo "Schema apply skipped."
 fi
 
-# Start the application (using exec to pass signals correctly)
 echo "Starting Directus..."
 exec npx directus start
